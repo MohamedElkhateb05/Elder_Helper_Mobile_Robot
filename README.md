@@ -12,7 +12,8 @@
 
 ## 📖 Project Overview
 
-![Add a diagram or picture of the 3-step cycle here](https://placehold.co/800x400?text=Insert+Project+Overview+Image+Here)
+<img width="1536" height="1024" alt="Project_Overview" src="https://github.com/user-attachments/assets/8e4e8adb-f2d6-4960-9f63-a4ff3acbfc3b" />
+
 
 The system operates on a continuous 3-step cycle:
 1. 👁️ **See:** A fixed-buffer USB webcam captures user hand gestures (0-5 fingers).
@@ -23,42 +24,9 @@ The system operates on a continuous 3-step cycle:
 
 ## 🛠️ System Architecture & Node Topology
 
-![Add Architecture/Topology Diagram Here](https://placehold.co/800x400?text=Insert+Architecture+Diagram+Here)
-graph TD
-    %% Define Styling
-    classDef rosNode fill:#34A853,stroke:#fff,stroke-width:2px,color:#fff,rx:5px,ry:5px;
-    classDef hardware fill:#4285F4,stroke:#fff,stroke-width:2px,color:#fff,rx:5px,ry:5px;
-    classDef external fill:#FBBC05,stroke:#fff,stroke-width:2px,color:#333,rx:5px,ry:5px;
-    classDef topic fill:#f8f9fa,stroke:#9aa0a6,stroke-width:1px,color:#202124,stroke-dasharray: 5 5;
+<img width="1536" height="1024" alt="System_Architecture" src="https://github.com/user-attachments/assets/efcb7b87-229e-496c-9314-b482895a191f" />
 
-    subgraph RPI ["Raspberry Pi 4/5 (ROS 2 Jazzy Workspace)"]
-        Cam[USB Camera]:::hardware -->|Raw Frames| VN(vision_node):::rosNode
-        
-        VN -->|/vision/finger_count| NAV(high_level_nav):::rosNode
-        VN -.->|/vision/raw_stream| BRIDGE(rosbridge_server):::rosNode
-        
-        NAV -->|/robot_target| AGENT(micro_ros_agent):::rosNode
-        AGENT -->|/robot_reached| NAV
-        
-        SYSMON(sys_mon):::rosNode -.->|/pi_stats| BRIDGE
-        
-        BRIDGE -.->|/extra_man_flag| MECH(ext_mechCTRL):::rosNode
-        
-        MECH -->|GPIO 18| Servo[Servo Motor]:::hardware
-        MECH -->|GPIO 12| LEDs[NeoPixel LEDs]:::hardware
-        LightSensor[Light Sensor]:::hardware -->|GPIO 4| MECH
-    end
 
-    subgraph WIFI ["Local Wi-Fi Network"]
-        BRIDGE <==>|WebSockets / JSON| GUI[Standalone Operator GUI]:::external
-        AGENT <==>|UDP IPv4 / Port 8888| ESP32[ESP32 MCU]:::hardware
-    end
-
-    subgraph CHASSIS ["Robot Chassis"]
-        ESP32 --> Motors[Motor Drivers]:::hardware
-        Encoders[Wheel Encoders]:::hardware --> ESP32
-    end
-    
 The software stack is built on a distributed **ROS 2 Jazzy** publish/subscribe model.
 
 | Node | Primary Function | Core Subscriptions | Core Publications |
@@ -73,7 +41,7 @@ The software stack is built on a distributed **ROS 2 Jazzy** publish/subscribe m
 
 ## 🤚 Gesture-to-Command Mapping
 
-![Add Gesture Mapping Picture Here](https://placehold.co/800x400?text=Insert+Gesture+Mapping+Image+Here)
+<img width="1024" height="1536" alt="Vision_Datacard" src="https://github.com/user-attachments/assets/de326e3d-e476-4bb7-ba00-d3fd16157074" />
 
 | Gesture (Fingers) | System Command | Action |
 | :---: | :--- | :--- |
@@ -91,6 +59,8 @@ The software stack is built on a distributed **ROS 2 Jazzy** publish/subscribe m
 ## 🌐 Operator Control Center (Standalone GUI)
 
 <img width="1919" height="1017" alt="GUI Dashboard" src="https://github.com/user-attachments/assets/2159ab94-0b98-4a6c-a9aa-78c2a88537f3" />
+<img width="1919" height="1025" alt="image" src="https://github.com/user-attachments/assets/b0dfe3b3-ee62-4442-b6d5-66e9d3298386" />
+
 
 To monitor and manually govern the robot, the system features a custom-built, browser-based Control Center. This interface is completely decoupled from the ROS 2 workspace. It is a **standalone application** that runs locally on the operator's laptop, ensuring zero computational overhead is taken away from the critical YOLO AI and navigation nodes running on the Raspberry Pi.
 
