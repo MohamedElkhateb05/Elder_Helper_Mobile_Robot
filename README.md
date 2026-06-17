@@ -69,3 +69,5 @@ The software stack is built on a distributed **ROS 2 Jazzy** publish/subscribe m
 sudo apt update
 sudo apt install python3-pip libgpiod2
 pip3 install ultralytics opencv-python inference-sdk psutil rpi_ws281x
+<img width="896" height="1195" alt="Elder_Helper_Mobile_Robot" src="https://github.com/user-attachments/assets/7efa1a9a-ce08-447e-87ea-7fa1eda4147f" />
+
