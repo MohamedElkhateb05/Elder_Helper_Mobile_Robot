@@ -3,6 +3,8 @@
 ![ROS 2](https://img.shields.io/badge/ROS_2-Jazzy-34A853?logo=ros)
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python)
 ![YOLOv8](https://img.shields.io/badge/YOLO-v8_NCNN-yellow)
+<img width="896" height="1195" alt="Elder_Helper_Mobile_Robot" src="https://github.com/user-attachments/assets/b21f8125-fcee-4b3b-901b-b21aee3f6c0b" />
+
 
 **Elder Helper** is a semi-autonomous, vision-guided robotic assistant designed to provide an intuitive, contactless interface for elderly support in indoor environments. By recognizing natural hand gestures, the robot navigates between rooms and interacts with its environment—replacing the need for joysticks, apps, or remote controls.
 
@@ -69,8 +71,4 @@ The software stack is built on a distributed **ROS 2 Jazzy** publish/subscribe m
 sudo apt update
 sudo apt install python3-pip libgpiod2
 pip3 install ultralytics opencv-python inference-sdk psutil rpi_ws281x
-
----
-
-<img width="896" height="1195" alt="Elder_Helper_Mobile_Robot" src="https://github.com/user-attachments/assets/7efa1a9a-ce08-447e-87ea-7fa1eda4147f" />
 
