@@ -3,14 +3,16 @@
 ![ROS 2](https://img.shields.io/badge/ROS_2-Jazzy-34A853?logo=ros)
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python)
 ![YOLOv8](https://img.shields.io/badge/YOLO-v8_NCNN-yellow)
-<img width="896" height="1195" alt="Elder_Helper_Mobile_Robot" src="https://github.com/user-attachments/assets/b21f8125-fcee-4b3b-901b-b21aee3f6c0b" />
 
+<img width="896" height="1195" alt="Elder_Helper_Mobile_Robot" src="https://github.com/user-attachments/assets/b21f8125-fcee-4b3b-901b-b21aee3f6c0b" />
 
 **Elder Helper** is a semi-autonomous, vision-guided robotic assistant designed to provide an intuitive, contactless interface for elderly support in indoor environments. By recognizing natural hand gestures, the robot navigates between rooms and interacts with its environment—replacing the need for joysticks, apps, or remote controls.
 
 ---
 
 ## 📖 Project Overview
+
+![Add a diagram or picture of the 3-step cycle here](https://placehold.co/800x400?text=Insert+Project+Overview+Image+Here)
 
 The system operates on a continuous 3-step cycle:
 1. 👁️ **See:** A fixed-buffer USB webcam captures user hand gestures (0-5 fingers).
@@ -20,6 +22,8 @@ The system operates on a continuous 3-step cycle:
 ---
 
 ## 🛠️ System Architecture & Node Topology
+
+![Add Architecture/Topology Diagram Here](https://placehold.co/800x400?text=Insert+Architecture+Diagram+Here)
 
 The software stack is built on a distributed **ROS 2 Jazzy** publish/subscribe model.
 
@@ -34,6 +38,8 @@ The software stack is built on a distributed **ROS 2 Jazzy** publish/subscribe m
 ---
 
 ## 🤚 Gesture-to-Command Mapping
+
+![Add Gesture Mapping Picture Here](https://placehold.co/800x400?text=Insert+Gesture+Mapping+Image+Here)
 
 | Gesture (Fingers) | System Command | Action |
 | :---: | :--- | :--- |
@@ -50,21 +56,26 @@ The software stack is built on a distributed **ROS 2 Jazzy** publish/subscribe m
 
 ## 🌐 Operator Control Center (Standalone GUI)
 
-![Elder Helper GUI Dashboard] <img width="1919" height="1017" alt="image" src="https://github.com/user-attachments/assets/2159ab94-0b98-4a6c-a9aa-78c2a88537f3" />
-
+<img width="1919" height="1017" alt="GUI Dashboard" src="https://github.com/user-attachments/assets/2159ab94-0b98-4a6c-a9aa-78c2a88537f3" />
 
 To monitor and manually govern the robot, the system features a custom-built, browser-based Control Center. This interface is completely decoupled from the ROS 2 workspace. It is a **standalone application** that runs locally on the operator's laptop, ensuring zero computational overhead is taken away from the critical YOLO AI and navigation nodes running on the Raspberry Pi.
 
 ### Key GUI Features
 * **Zero-Install Deployment:** Built with pure HTML5, CSS, and JavaScript. The operator simply opens the `index.html` file in any modern web browser on their laptop—no ROS 2 installation required on the host machine.
 * **Low-Bandwidth WebSockets:** Connects to the robot over the local Wi-Fi network utilizing the `rosbridge_server` package. It exchanges lightweight JSON payloads rather than heavy, continuous data streams.
-* **Real-Time Telemetry:** Subscribes to the `/pi_stats` topic to provide live, 1Hz updates on the robot's computational health (CPU usage, RAM allocation, and SoC temperature).
+* **Comprehensive Data Visualization:** The dashboard actively unpacks and displays real-time data from the robot, including:
+  * **System Health:** CPU usage (%), RAM allocation (%), and SoC core temperature (°C) via `/pi_stats`.
+  * **Mission Status:** Active YOLO gesture classifications and the current navigational target ID.
+  * **Connection Integrity:** Live WebSocket connection status to ensure the operator is safely linked.
+* **Custom Color Themes & Options:** The interface includes dynamic color styling options, allowing the operator to adjust the visual theme (e.g., high-contrast or dark mode elements) for better visibility depending on the operating environment.
 * **Live Camera Feed:** Decodes the `/vision/raw_stream/compressed` JPEG topic, allowing the operator to monitor the robot's exact point-of-view and YOLO evaluation in real-time.
 * **Fail-Safe Override:** Features a dedicated manual control interface that publishes directly to the `/extra_man_flag` topic, instantly halting autonomous navigation and triggering the hardware mechanisms.
 
 ---
 
 ## ⚙️ Hardware Integration
+
+![Add Hardware Integration Picture Here](https://placehold.co/800x400?text=Insert+Hardware+Picture+Here)
 
 * **Main Compute (Brain):** Raspberry Pi 4/5 (Ubuntu 24.04 / ROS 2 Jazzy).
 * **Low-Level MCU (Motor Control):** ESP32 linked via UDP.
@@ -87,7 +98,3 @@ To monitor and manually govern the robot, the system features a custom-built, br
 sudo apt update
 sudo apt install python3-pip libgpiod2
 pip3 install ultralytics opencv-python inference-sdk psutil rpi_ws281x
-
-
-
-
