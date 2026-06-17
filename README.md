@@ -48,6 +48,22 @@ The software stack is built on a distributed **ROS 2 Jazzy** publish/subscribe m
 
 ---
 
+## 🌐 Operator Control Center (Standalone GUI)
+
+![Elder Helper GUI Dashboard] <img width="1919" height="1017" alt="image" src="https://github.com/user-attachments/assets/2159ab94-0b98-4a6c-a9aa-78c2a88537f3" />
+
+
+To monitor and manually govern the robot, the system features a custom-built, browser-based Control Center. This interface is completely decoupled from the ROS 2 workspace. It is a **standalone application** that runs locally on the operator's laptop, ensuring zero computational overhead is taken away from the critical YOLO AI and navigation nodes running on the Raspberry Pi.
+
+### Key GUI Features
+* **Zero-Install Deployment:** Built with pure HTML5, CSS, and JavaScript. The operator simply opens the `index.html` file in any modern web browser on their laptop—no ROS 2 installation required on the host machine.
+* **Low-Bandwidth WebSockets:** Connects to the robot over the local Wi-Fi network utilizing the `rosbridge_server` package. It exchanges lightweight JSON payloads rather than heavy, continuous data streams.
+* **Real-Time Telemetry:** Subscribes to the `/pi_stats` topic to provide live, 1Hz updates on the robot's computational health (CPU usage, RAM allocation, and SoC temperature).
+* **Live Camera Feed:** Decodes the `/vision/raw_stream/compressed` JPEG topic, allowing the operator to monitor the robot's exact point-of-view and YOLO evaluation in real-time.
+* **Fail-Safe Override:** Features a dedicated manual control interface that publishes directly to the `/extra_man_flag` topic, instantly halting autonomous navigation and triggering the hardware mechanisms.
+
+---
+
 ## ⚙️ Hardware Integration
 
 * **Main Compute (Brain):** Raspberry Pi 4/5 (Ubuntu 24.04 / ROS 2 Jazzy).
@@ -74,19 +90,4 @@ pip3 install ultralytics opencv-python inference-sdk psutil rpi_ws281x
 
 
 
----
-
-## 🌐 Operator Control Center (Standalone GUI)
-
-![Elder Helper GUI Dashboard] <img width="1919" height="1017" alt="image" src="https://github.com/user-attachments/assets/2159ab94-0b98-4a6c-a9aa-78c2a88537f3" />
-
-
-To monitor and manually govern the robot, the system features a custom-built, browser-based Control Center. This interface is completely decoupled from the ROS 2 workspace. It is a **standalone application** that runs locally on the operator's laptop, ensuring zero computational overhead is taken away from the critical YOLO AI and navigation nodes running on the Raspberry Pi.
-
-### Key GUI Features
-* **Zero-Install Deployment:** Built with pure HTML5, CSS, and JavaScript. The operator simply opens the `index.html` file in any modern web browser on their laptop—no ROS 2 installation required on the host machine.
-* **Low-Bandwidth WebSockets:** Connects to the robot over the local Wi-Fi network utilizing the `rosbridge_server` package. It exchanges lightweight JSON payloads rather than heavy, continuous data streams.
-* **Real-Time Telemetry:** Subscribes to the `/pi_stats` topic to provide live, 1Hz updates on the robot's computational health (CPU usage, RAM allocation, and SoC temperature).
-* **Live Camera Feed:** Decodes the `/vision/raw_stream/compressed` JPEG topic, allowing the operator to monitor the robot's exact point-of-view and YOLO evaluation in real-time.
-* **Fail-Safe Override:** Features a dedicated manual control interface that publishes directly to the `/extra_man_flag` topic, instantly halting autonomous navigation and triggering the hardware mechanisms.
 
