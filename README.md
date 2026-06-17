@@ -24,7 +24,41 @@ The system operates on a continuous 3-step cycle:
 ## 🛠️ System Architecture & Node Topology
 
 ![Add Architecture/Topology Diagram Here](https://placehold.co/800x400?text=Insert+Architecture+Diagram+Here)
+graph TD
+    %% Define Styling
+    classDef rosNode fill:#34A853,stroke:#fff,stroke-width:2px,color:#fff,rx:5px,ry:5px;
+    classDef hardware fill:#4285F4,stroke:#fff,stroke-width:2px,color:#fff,rx:5px,ry:5px;
+    classDef external fill:#FBBC05,stroke:#fff,stroke-width:2px,color:#333,rx:5px,ry:5px;
+    classDef topic fill:#f8f9fa,stroke:#9aa0a6,stroke-width:1px,color:#202124,stroke-dasharray: 5 5;
 
+    subgraph RPI ["Raspberry Pi 4/5 (ROS 2 Jazzy Workspace)"]
+        Cam[USB Camera]:::hardware -->|Raw Frames| VN(vision_node):::rosNode
+        
+        VN -->|/vision/finger_count| NAV(high_level_nav):::rosNode
+        VN -.->|/vision/raw_stream| BRIDGE(rosbridge_server):::rosNode
+        
+        NAV -->|/robot_target| AGENT(micro_ros_agent):::rosNode
+        AGENT -->|/robot_reached| NAV
+        
+        SYSMON(sys_mon):::rosNode -.->|/pi_stats| BRIDGE
+        
+        BRIDGE -.->|/extra_man_flag| MECH(ext_mechCTRL):::rosNode
+        
+        MECH -->|GPIO 18| Servo[Servo Motor]:::hardware
+        MECH -->|GPIO 12| LEDs[NeoPixel LEDs]:::hardware
+        LightSensor[Light Sensor]:::hardware -->|GPIO 4| MECH
+    end
+
+    subgraph WIFI ["Local Wi-Fi Network"]
+        BRIDGE <==>|WebSockets / JSON| GUI[Standalone Operator GUI]:::external
+        AGENT <==>|UDP IPv4 / Port 8888| ESP32[ESP32 MCU]:::hardware
+    end
+
+    subgraph CHASSIS ["Robot Chassis"]
+        ESP32 --> Motors[Motor Drivers]:::hardware
+        Encoders[Wheel Encoders]:::hardware --> ESP32
+    end
+    
 The software stack is built on a distributed **ROS 2 Jazzy** publish/subscribe model.
 
 | Node | Primary Function | Core Subscriptions | Core Publications |
@@ -75,7 +109,8 @@ To monitor and manually govern the robot, the system features a custom-built, br
 
 ## ⚙️ Hardware Integration
 
-![Add Hardware Integration Picture Here](https://placehold.co/800x400?text=Insert+Hardware+Picture+Here)
+<img width="1437" height="1296" alt="Hardware" src="https://github.com/user-attachments/assets/a2c40de1-5903-4062-a7a2-d12223c92872" />
+
 
 * **Main Compute (Brain):** Raspberry Pi 4/5 (Ubuntu 24.04 / ROS 2 Jazzy).
 * **Low-Level MCU (Motor Control):** ESP32 linked via UDP.
